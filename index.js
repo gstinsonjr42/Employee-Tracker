@@ -143,31 +143,37 @@ function addRole(){
     })
 }
 
-/*function addEmployee(){
+function addEmployee(){
     inquirer
         .prompt([
             {
-            name: "addRoleTitle",
+            name: "addFirstName",
             type: "input",
-            message:"What is the name of the role you would like to add?"
+            message:"What is the first name of the employee you would like to add?"
         },
         {
-            name:"addRoleSalary",
+            name:"addLastName",
             type:"input",
-            message:"What is the salary for this position"
+            message:"What is the last name of the employee you would like to add?"
         },
         {
-            name:"addDepId",
+            name:"addRoleId",
             type:"input",
-            message:"Type the number of the department's id to which this position belongs."
+            message:"Type the id of the role that corresponds to the position of this employee"
+        },
+        {
+            name:"addManagerId",
+            type:"input",
+            message:"If applicable, type the id of this employee's manager"
         }
     ]).then(function(answer){
             connection.query(
-                'INSERT INTO role SET ?',
+                'INSERT INTO employee SET ?',
                 {
-                    title: answer.addRoleTitle,
-                    salary: answer.addRoleSalary,
-                    department_id: answer.addDepId
+                    first_name: answer.addFirstName,
+                    last_name: answer.addLastName,
+                    role_id: answer.addRoleId,
+                    manager_id: answer.addManagerId
                 },
                 (err,res)=>{
                     if(err) throw err;
@@ -176,5 +182,5 @@ function addRole(){
                 }
             )
     })
-}*/
+}
 
