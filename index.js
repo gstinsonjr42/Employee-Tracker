@@ -60,6 +60,7 @@ function mainMenu(){
                     break;
             };
         });
+    }
 
 
 function add(){
@@ -107,4 +108,73 @@ function addDepartment(){
             )
         })
     }
+function addRole(){
+    inquirer
+        .prompt([
+            {
+            name: "addRoleTitle",
+            type: "input",
+            message:"What is the name of the role you would like to add?"
+        },
+        {
+            name:"addRoleSalary",
+            type:"input",
+            message:"What is the salary for this position"
+        },
+        {
+            name:"addDepId",
+            type:"input",
+            message:"Type the number of the department's id to which this position belongs."
+        }
+    ]).then(function(answer){
+            connection.query(
+                'INSERT INTO role SET ?',
+                {
+                    title: answer.addRoleTitle,
+                    salary: parseFloat(answer.addRoleSalary),
+                    department_id: answer.addDepId
+                },
+                (err,res)=>{
+                    if(err) throw err;
+                    console.log("Role Added!");
+                    mainMenu();
+                }
+            )
+    })
 }
+
+/*function addEmployee(){
+    inquirer
+        .prompt([
+            {
+            name: "addRoleTitle",
+            type: "input",
+            message:"What is the name of the role you would like to add?"
+        },
+        {
+            name:"addRoleSalary",
+            type:"input",
+            message:"What is the salary for this position"
+        },
+        {
+            name:"addDepId",
+            type:"input",
+            message:"Type the number of the department's id to which this position belongs."
+        }
+    ]).then(function(answer){
+            connection.query(
+                'INSERT INTO role SET ?',
+                {
+                    title: answer.addRoleTitle,
+                    salary: answer.addRoleSalary,
+                    department_id: answer.addDepId
+                },
+                (err,res)=>{
+                    if(err) throw err;
+                    console.log("Role Added!");
+                    mainMenu();
+                }
+            )
+    })
+}*/
+
