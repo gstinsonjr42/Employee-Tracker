@@ -49,7 +49,7 @@ function mainMenu(){
                 case "ADD":
                     add();
                     break;
-                case "View departments, roles, employees":
+                case "VIEW":
                     view();
                     break;
                 case "Update employee roles":
@@ -66,12 +66,12 @@ function mainMenu(){
 function add(){
     inquirer 
         .prompt({
-            name:"addDPR",
+            name:"addDRE",
             type: "list",
             message:"Would you like to add a department, role, or an employee",
             choices: ["department", "role", "employee", "exit"]
         }).then(function(answer){
-            switch(answer.addDPR){
+            switch(answer.addDRE){
                 case "department":
                     addDepartment();
                     break;
@@ -184,3 +184,56 @@ function addEmployee(){
     })
 }
 
+//View functionality
+
+function view(){
+    inquirer 
+        .prompt({
+            name:"viewDRE",
+            type: "list",
+            message:"Would you like to view departments, roles, or employees",
+            choices: ["department", "role", "employee", "exit"]
+        }).then(function(answer){
+            switch(answer.viewDRE){
+                case "department":
+                    viewDepartments();
+                    break;
+                case "role":
+                    viewRoles();
+                    break;
+                case "employee":
+                    viewEmployees();
+                    break;
+                case "exit":
+                    mainMenu();
+                    break;
+            }
+        });
+}
+
+function viewEmployees(){
+    const employees = connection.query(`SELECT * FROM employee`,(err,res)=>{
+        if(err) throw err;
+        console.table(res);
+        mainMenu();
+    })
+    
+}
+
+function viewDepartments(){
+    const department = connection.query(`SELECT * FROM departments`,(err,res)=>{
+        if(err) throw err;
+        console.table(res);
+        mainMenu();
+    })
+    
+}
+
+function viewRoles(){
+    const roles = connection.query(`SELECT * FROM role`,(err,res)=>{
+        if(err) throw err;
+        console.table(res);
+        mainMenu();
+    })
+    
+}
