@@ -29,7 +29,7 @@ function mainMenu(){
             [
                 {
                     name:"Add departments, roles, employees",
-                    name: "ADD"
+                    value: "ADD"
                 },
                 {
                     name:"View departments, roles, employees",
@@ -37,7 +37,7 @@ function mainMenu(){
                 },
                 {
                     name:"Update employee roles",
-                    value:"VIEW"
+                    value:"UPDATE"
                 },
                 { 
                     name: "Exit",
@@ -52,7 +52,7 @@ function mainMenu(){
                 case "VIEW":
                     view();
                     break;
-                case "Update employee roles":
+                case "UPDATE":
                     update();
                     break;
                 case "Exit":
@@ -235,5 +235,50 @@ function viewRoles(){
         console.table(res);
         mainMenu();
     })
+    
+}
+
+function update(){
+    connection.query(`SELECT * FROM role`,(err,res)=>{
+        if(err) throw err;
+        console.table(res);
+    });
+    connection.query(`SELECT * FROM employee`,(err,res)=>{
+        if(err) throw err;
+        console.table(res);
+        inquirer
+        .prompt([
+            {
+            name:"updateDRE",
+            type:"input",
+            message: "Type the id number of the employee whose role you would like to update."
+        },
+        {
+          name:"roleToUpdate",
+          type:"input",
+          message:"Type the id of the role you would like to update this employee's role to."  
+
+        }
+    ]).then(function(answer){
+        connection.query(
+                    "UPDATE employee SET ? WHERE ?",
+                        [
+                            {
+                               role_id: parseInt(answer.roleToUpdate)
+                            },
+                            {
+                                id: parseInt(answer.updateDRE)
+                            }
+                            ],
+                            (err,res)=>{
+                                if(err) throw err;
+                                console.log("Role Updated!")
+                                mainMenu()
+                            }
+        )
+                        
+                    
+        });
+    });
     
 }
